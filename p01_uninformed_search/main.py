@@ -17,22 +17,39 @@
 
 """
 Objetivos:
-
+  - G = (V, E)
+    - V es el conjunto de vértices (n)
+    - E es el conjunto de aristas (m)
+    - Cada arista tiene un coste d(i, j)
+  - Camino que conecte dos vértices
+  - d(i, j) = d(j, i)
+  - d(i, i) = 0
+  - d(i, j) = -1 si no existe
 """
     
 import sys
 
+import tools
+
 def main():
-    print(sys.argv[1])
-   
-    filename = input("Introduce file name: ")
+    """
+    Main function that initializes the graph and operates with it.
+    """
+
+    arguments = sys.argv
+    
+    
+    filename = tools.ManageExecution(arguments)
+    
+    if (filename == "menu"):
+        filename = input("Introduce the file containing the graph declaration: ")
+        
     try:
         with open("./files/" + filename) as file:
             for line in file:
                 print(line, end="")
     except FileNotFoundError:
         print("File {} could not be found.".format(filename))
-        
 
 if __name__ == '__main__':
     main()
