@@ -18,18 +18,27 @@
 import sys
 
 def ManageExecution(arguments: "list[str]") -> str:
+    value: str
+    valid_option: bool = False
     if (len(arguments) < 2):
-        return "menu"
+        value = "menu"
+        valid_option = True
+    
     for i in range(1, len(arguments)):
         #print(arguments[i])
         if (arguments[i] == "--help" or arguments[i] == "-h"):
-            print("Por inplementar")
+            print("Por implementar")
             exit(0)
         elif (arguments[i] == "-f"):
-            i += 1
-            #print(arguments[i])
-            return arguments[i]
-        else:
-            print("The program has been executed with an incorrect option.")
-            print(f"For more information, please use: {arguments[0]} --help")
-            exit(1)
+            if (i + 1 < len(arguments)):
+                #print(arguments[i])
+                i += 1
+                value = arguments[i]
+                valid_option = True
+        
+    if not(valid_option):
+        print("The program has been executed with an incorrect option.")
+        print(f"For more information, please use: {arguments[0]} --help")
+        exit(1)
+            
+    return value

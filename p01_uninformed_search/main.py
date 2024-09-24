@@ -48,8 +48,9 @@ def main():
         with open("./files/" + filename) as file:
             for line in file:
                 print(line, end="")
-    except FileNotFoundError:
-        print("File {} could not be found.".format(filename))
+    except FileNotFoundError as e:
+        print(f"File {filename} could not be found.")
+        print(f"{e}")
 
 if __name__ == '__main__':
     main()
