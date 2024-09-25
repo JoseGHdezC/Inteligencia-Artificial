@@ -24,32 +24,50 @@ class Graph:
     
     def __init__(self, filename):
         try:
-            with open("./files/" + filename) as file:
-                number = int(file.readline())
+            with open("./files/" + filename, "r") as file:
+                number: int = int(file.readline())
                 self.node_number = number
                 for i in range(0, self.node_number):
                     self.nodes.append([])
                     
-                for i in range(0, self.node_number):
-                    j = 0
-                    for j in range(0, self.node_number - j - 1):
-                        edge_cost = file.readline()
-                        if (edge_cost != -1):
-                            self.nodes[i].append((j, edge_cost))
-                            self.nodes[j].append((i, edge_cost))
-                        #print(edge_cost)
-                    #j = self.node_number - 1
-                    #while (j > 0):
-                    #    edge_cost = file.readline()
-                    #    
-                    #    #print(edge_cost)
-                    #    j -= 1
+                row: int = 0
+                column: int = 0
+                limit: int = 1 
+                file_iterations: int = self.node_number - limit
+                for line in file:
+                    print()
+                    print(line.strip())
+                    print(f"-->File iteration: {file_iterations}")
+                    print(f"->Current row: {row}")
+                    print(f"->Current column: {column}")
+                    edge_cost: float = float(line.strip())
+                    if (row == column):
+                        self.nodes[row].append((column, 0))
+                        column += 1    
+                        print(f"Incluyendo row: {row} {self.nodes[row]}")
                     
+                    print(f"->Current row: {row}")
+                    print(f"->Current column: {column}")
+                    if (row < self.node_number and column < self.node_number):    
+                        self.nodes[row].append((column, edge_cost))
+                        self.nodes[column].append((row, edge_cost))
+                        print(f"Incluyendo row: {row} {self.nodes[row]} \nY row: {column} {self.nodes[column]}")
+                        column += 1 
+
+                    if (file_iterations - limit == 0):
+                        row += 1
+                        column = row
+                        file_iterations = self.node_number - row - 1
+                    else:
+                        file_iterations -= 1
+                
+                self.nodes[column].append((column, 0))  # Includes the last node
         except FileNotFoundError as e:
             print(f"File {filename} could not be found.")
             print(f"{e}")
     
     def __str__(self):
+        print()
         print(f"Node number: {self.node_number}")
         for i in self.nodes:
             print(i)
