@@ -1,0 +1,7 @@
+# File used to ignore certain files in order to stop them from being commited
+
+# Ignores Introducciones-main repository
+./Introducciones-main
+
+# Ignores __pycache__
+./p01_uninformed_search/__pycache__
