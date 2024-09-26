@@ -53,11 +53,12 @@ class Graph:
                     
                     #print(f"->Current row: {row}")
                     #print(f"->Current column: {column}")
-                    if (row < self.node_number and column < self.node_number):    
-                        self.nodes[row].append((column, edge_cost))
-                        self.nodes[column].append((row, edge_cost))
-                        #print(f"Incluyendo row: {row} {self.nodes[row]} \nY row: {column} {self.nodes[column]}")
-                        column += 1 
+                    if (row < self.node_number and column < self.node_number):
+                        if (edge_cost > -1):    
+                            self.nodes[row].append((column, edge_cost))
+                            self.nodes[column].append((row, edge_cost))
+                            #print(f"Incluyendo row: {row} {self.nodes[row]} \nY row: {column} {self.nodes[column]}")
+                        column += 1     
 
                     if (file_iterations - limit == 0):
                         row += 1
@@ -74,23 +75,27 @@ class Graph:
     def __str__(self):
         print()
         print(f"Node number: {self.node_number}")
+        j: int = 0
         for i in self.nodes:
+            print(f"Node {j}:", end=" ")
             print(i)
+            j += 1
 
+        for i in self.
         return ""
             
-    def BFS(self, start_node):
+    def BFS(self, start_node: int):
         #queue<unsigned> cola; //creamos e inicializamos la cola
         #cola.push(i);//iniciamos el recorrido desde el nodo i+1
-        #node_queue = queue.Queue()
-        #node_queue.put(start_node)
+        node_queue = queue.Queue()
+        node_queue.put(start_node)
         #
         #while (!cola.empty()) {   //al menos entra una vez al visitar el nodo i+1 y contin�a hasta que la cola se vac�e
         #  unsigned k = cola.front(); //cogemos el nodo k+1 de la cola
         #  cola.pop(); //lo sacamos de la cola
-        #while not(node_queue.empty()):
-        #   node = node_queue.get()
-        
+        while not(node_queue.empty()):
+            k = node_queue.get()
+            print(k)
         
         #  //Hacemos el recorrido sobre L desde el nodo k+1
         #  for (unsigned j = 0; j < L[k].size(); j++) {
@@ -109,7 +114,6 @@ class Graph:
         #  }
         #      //Hemos terminado pues la cola está vacía
         #}
-        pass
     
     def DFS(self, start_node):
         pass
