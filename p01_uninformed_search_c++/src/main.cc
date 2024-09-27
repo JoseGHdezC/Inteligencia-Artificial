@@ -1,4 +1,4 @@
-//"""
+/**"""
 //    Universidad de La Laguna
 //    Escuela Superior de Ingeniería y Tecnología
 //    Grado en Ingeniería Informática
@@ -13,7 +13,7 @@
 //
 //    Historial de revisiones
 //      24/09/2024 - Creación (primera versión) del código
-//"""
+*/
 //
 //"""
 //Objetivos:
@@ -42,7 +42,27 @@
 //
 //import tools
 //import graph
-//
+#include <iostream>
+
+#include "../lib/tools.hpp"
+#include "../lib/graph.hpp"
+
+int main(int argc, char* argv[]) {
+  int kCorrectNumber = 1;
+  CheckExecution(argc, argv, kCorrectNumber);
+  ProgramOptions options;
+  ProgramParameters(argc, argv, options);
+  
+  if (!options.file_received) {
+    std::string aux_name{""};
+    std::cout << "Introduce file containing the graph's description: ";
+    std::cin >> aux_name;
+    options.file_name = aux_name;
+  }
+  
+  std::cout << "File introduced: " << options.file_name << std::endl;
+  return 0;
+}
 //def main():
 //    """
 //    Main function that initializes the graph and operates with it.

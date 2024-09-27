@@ -17,8 +17,14 @@
 
 // Implementar como matriz
 // No hay arista de i a i
+#include <vector>
+#include <utility>
+#include <string>
+#include <fstream>
+
 class Graph {
-    
+ public:
+  Graph(std::string filename);
     //nodes = []
     //node_number = 0
     //edge_number = 0
@@ -41,6 +47,11 @@ class Graph {
     //
     //def DFS(self, start_node):
     //    pass
+
+ private:
+  std::vector<std::vector<std::pair<unsigned, double>>> nodes;
+  unsigned node_number{0};
+  unsigned edge_number{0};
 
 };
     

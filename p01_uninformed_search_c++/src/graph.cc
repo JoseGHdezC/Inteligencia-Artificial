@@ -1,4 +1,4 @@
-//"""
+/**
 //    Universidad de La Laguna
 //    Escuela Superior de Ingeniería y Tecnología
 //    Grado en Ingeniería Informática
@@ -13,8 +13,13 @@
 //
 //    Historial de revisiones
 //      24/09/2024 - Creación (primera versión) del código
-//"""
-//
+*/
+
+#include "../lib/graph.hpp"
+
+Graph::Graph(std::string filename) {
+  
+}
 //# Implementar como matriz
 //# No hay arista de i a i
 //class Graph:
