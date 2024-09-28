@@ -5,3 +5,11 @@
 
 # Ignores __pycache__
 /p01_uninformed_search/__pycache__
+
+# Ignores all object files
+*.o
+
+# Ignores all executable files
+*.exe
+*.out
+p01_uninformed_search
