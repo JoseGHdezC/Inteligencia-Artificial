@@ -29,7 +29,7 @@
 #include <queue>
 #include <utility>
 
-#include "../include/binary_node.h"
+#include "binary_node.h"
 
 /**
  * @class BinaryTree

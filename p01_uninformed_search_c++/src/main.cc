@@ -42,6 +42,7 @@
 
 #include "../include/tools.hpp"
 #include "../include/graph.hpp"
+#include "../include/tree.hpp"
 
 void ExecuteMode(char mode, Graph& graph) { 
   std::string file_name{""};
@@ -52,7 +53,7 @@ void ExecuteMode(char mode, Graph& graph) {
       graph = Graph(file_name);
       break;
     case 'b':
-      std::cout << "Doing a bfs." << std::endl;
+      graph.BranchSearch();
       break;
     case 'd':
       std::cout << "Doing a dfs." << std::endl;
@@ -83,6 +84,7 @@ int main(int argc, char* argv[]) {
   
   std::cout << "File introduced: " << options.file_name << std::endl;
   Graph graph(options.file_name);
+  //Tree tree; // TODO: recuerda usarlo
   char mode{'\0'};
   do {
     ShowMenu();

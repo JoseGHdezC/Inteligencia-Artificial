@@ -21,7 +21,6 @@ Graph::Graph(std::string filename) {
   std::cout << "Creating graph" << std::endl;
   std::ifstream input_file{filename};
   if (input_file.is_open()) {
-    //with open(filename, "r") as file:
     std::string line{""};
     input_file >> line;
     node_number_ = std::stoi(line);
@@ -30,44 +29,36 @@ Graph::Graph(std::string filename) {
       std::vector<double> aux(node_number_);
       nodes_.emplace_back(aux);
     }
-    //          number: int = int(file.readline())
-    //          self.node_number = number
-    //          for i in range(0, self.node_number):
-    //              self.nodes.append([])
+    
     unsigned row{0};
     unsigned column{0};
     unsigned limit{1};
     unsigned file_iterations{node_number_ - limit}; 
-    //          row: int = 0
-    //          column: int = 0
-    //          limit: int = 1 
-    //          file_iterations: int = self.node_number - limit
+
     bool first_line{true};
     while (getline(input_file, line)) {
-      // for line in file:
-      //std::cout << "Line: " << line << std::endl;
-      //if (!line.empty()) {
       if (!first_line) {
         double edge_cost = std::stod(line);
-        //std::cout << "Coste: " << edge_cost << std::endl;
+      
         if (row == column) {
         nodes_[row][column] = 0;
         ++column;
         }
-      //std::cout << "Row: " << row << " Column: " << column << std::endl;
-      if (row < node_number_ && column < node_number_) {
-        nodes_[row][column] = edge_cost;
-        nodes_[column][row] = edge_cost;
-        ++column;
-      }
-      //std::cout << *this << std::endl;
-      if (file_iterations - limit == 0) {
-        ++row;
-        column = row;
-        file_iterations = node_number_ - row - 1;
-      } else {
-        --file_iterations;
-      }
+        if (row < node_number_ && column < node_number_) {
+          nodes_[row][column] = edge_cost;
+          nodes_[column][row] = edge_cost;
+          ++column;
+        }
+        if (file_iterations - limit == 0) {
+          ++row;
+          column = row;
+          file_iterations = node_number_ - row - 1;
+        } else {
+          --file_iterations;
+        }
+        if (edge_cost > -1) {
+          ++edge_number_;
+        }
       }
       first_line = false;
     }
@@ -79,6 +70,84 @@ Graph::Graph(std::string filename) {
 
 Graph::~Graph() {}
 
+void Graph::BranchSearch() {
+  unsigned start_node{0};
+  unsigned end_node{0};
+  std::cout << "Doing a Branch Search" << std::endl;
+  std::cout << "---------------------" << std::endl;
+  std::cout << "Introduce start node [1-" << node_number_ << "]: ";
+  std::cin >> start_node;
+  std::cout << "Introduce destin node [1-" << node_number_ << "]: ";
+  std::cin >> end_node;
+  
+  std::cout << "----------------------" << std::endl;
+  std::cout << "Graph's node number: " << node_number_ << std::endl;
+  std::cout << "Graph's edge number: " << edge_number_ << std::endl;
+  std::cout << "Starting node: " << start_node << std::endl;
+  std::cout << "Destin node: " << end_node << std::endl;
+
+  --start_node;
+  --end_node;
+
+  std::vector<unsigned> generated_nodes;
+  std::vector<unsigned> inspected_nodes;
+  //Tree solution_tree;
+  int cost{0};
+
+  BFS(start_node, end_node, generated_nodes, inspected_nodes, cost);
+  std::cout << "--------------" << std::endl;
+  std::cout << "Path: " << std::endl;
+  std::cout << "--------------" << std::endl;
+  std::cout << "Cost: " << cost << std::endl;
+}
+void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_nodes, std::vector<unsigned>& inspected_nodes, int& cost) {
+  unsigned iteration{1};
+  std::queue<unsigned> queue;
+  queue.push(start);
+  generated_nodes.emplace_back(start);
+
+  std::cout << "---------------" << std::endl;
+  std::cout << "Iteration: " << iteration << std::endl;
+  std::cout << "Generated nodes: ";
+  PrintVector(generated_nodes);
+  std::cout << "Inspected nodes: ";
+  PrintVector(inspected_nodes);
+
+  for (int i = 0; i < 10; ++i) {
+  //while (!queue.empty() && !destin_found) {
+    unsigned node = queue.front();
+    queue.pop();
+    inspected_nodes.emplace_back(node + 1);
+    std::cout << "Node: " << node << std::endl;
+    //if (node == end) {
+    //  break;
+    //}
+
+    std::vector<unsigned> aux;
+    for (unsigned i = 0; i < nodes_[node].size(); ++i) {
+      if (nodes_[node][i] > 0) {
+        std::cout << i << " ";
+        
+        aux.emplace_back(i);
+        generated_nodes.emplace_back(i + 1);
+      }
+    }
+    std::cout << std::endl;
+    std::sort(aux.begin(), aux.end());
+    for (unsigned i = 0; i < aux.size(); ++i) {
+      queue.push(i);
+    }
+    ++iteration;
+    std::cout << "---------------" << std::endl;
+    std::cout << "Iteration: " << iteration << std::endl;
+    std::cout << "Generated nodes: ";
+    PrintVector(generated_nodes);
+    std::cout << "Inspected nodes: ";
+    PrintVector(inspected_nodes);
+  //}
+  }
+}
+
 std::ostream& operator<<(std::ostream& os, Graph& graph) {
   os << "Node number: " << graph.node_number_ << std::endl;
   for (unsigned i = 0; i < graph.node_number_; ++i) {
@@ -89,4 +158,14 @@ std::ostream& operator<<(std::ostream& os, Graph& graph) {
     os << "]" << std::endl;
   }
   return os;
+}
+
+void PrintVector(const std::vector<unsigned>& vector) {
+  for (unsigned i = 0; i < vector.size(); ++i) {
+    std::cout << i;
+    if (i != vector.size() - 1) {
+      std::cout << ", ";
+    }
+  }
+  std::cout << std::endl;
 }

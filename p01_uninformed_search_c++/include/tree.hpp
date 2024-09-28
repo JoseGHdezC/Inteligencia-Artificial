@@ -15,11 +15,121 @@
  *   24/09/2024 - Creación (primera versión) del código
 */
 
+#include <queue>
+#include <utility>
+
 #include "node.hpp"
 
 class Tree {
- private:
-
  public:
-  Node* root_{nullptr};
+  Tree();
+  
+  ~Tree();
+//
+  Node* get_root() { return root_; }
+  //// Basic operations
+  bool IsEmpty(Node*);
+  bool Insert(const unsigned element, unsigned child_number, Node* node);
+  bool Search(const unsigned, Node*);
+//
+  friend std::ostream& operator<<(std::ostream&, const Tree&);
+
+ private:
+  Node* root_;
+  // Methods
+  void DestroyTree(Node*& node);  // Used to destroy the tree
+  bool PreorderSearch(
+      Node*, const unsigned) const;  // Used to seach an element
+  // Traversals
+  void LevelTraversal(Node*) const;
 };
+
+Tree::Tree() : root_(nullptr) {}
+
+Tree::~Tree() {
+  if (!IsEmpty(root_)) {
+    DestroyTree(root_);
+  }
+}
+
+void Tree::DestroyTree(Node*& node) {
+  if (node != nullptr) {
+    for (unsigned i = 0; i < node -> get_childs().size(); ++i) {
+      DestroyTree(node -> get_childs()[i]);
+    }
+    delete node;
+    node = nullptr;
+  }
+}
+
+bool Tree::Insert(const unsigned element, unsigned child_number, Node* node) {
+  //std::cout << "Insertando" << std::endl;
+  if (Search(element, node)) {
+    return false;
+  }
+  if (this -> root_ == nullptr) {
+    this -> root_ = new Node(element, child_number);
+  } else {
+    if (node -> get_childs().size() < node -> get_child_number()) {
+      node -> get_childs().emplace_back(new Node(element, child_number));
+    }
+  }
+  return true;
+}
+
+bool Tree::Search(const unsigned element, Node* node) {
+  if (PreorderSearch(node, element)) {
+    return true;
+  }
+  return false;
+}
+
+bool Tree::PreorderSearch(Node* node, unsigned element) const {
+  if (node == nullptr) {
+    return false;
+  }
+  if (node -> get_identifier() == element) {
+    //std::cout << node -> getData() << " <- ";
+    return true;
+  }
+  for (unsigned i = 0; i < node -> get_childs().size(); ++i) {
+    if (PreorderSearch(node -> get_childs()[i], element)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void Tree::LevelTraversal(Node* root) const {
+  std::queue<std::pair<Node*, int>> node_queue;
+  Node* node;
+  int level{0}, current_level{0};
+  node_queue.push(std::make_pair(root, 0));
+  while (!node_queue.empty()) {
+    node = node_queue.front().first;
+    level = node_queue.front().second;
+    node_queue.pop();
+    if (level > current_level) {  // Line jump
+      current_level = level;
+      std::cout << std::endl;
+    }
+    if (node != nullptr) {  // Introduces both children in the queue
+      std::cout << " " << *node;
+      for (unsigned i = 0; i < node -> get_childs().size(); ++i) {
+        node_queue.push(std::make_pair(node -> get_childs()[i], level + 1));
+      }
+    } else {
+      std::cout << " [.]";  // The child is null
+    }
+  }
+}
+
+bool Tree::IsEmpty(Node* node) {
+  return node == nullptr;
+}
+
+std::ostream& operator<<(std::ostream& os, const Tree& tree) {
+  tree.LevelTraversal(tree.root_);
+  os << std::endl;
+  return os;
+}
