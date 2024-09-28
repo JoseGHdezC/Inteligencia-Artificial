@@ -15,7 +15,7 @@
       24/09/2024 - Creación (primera versión) del código
 */
 
-#include "../lib/tools.hpp"
+#include "../include/tools.hpp"
 
 void CheckExecution(int argc, char* argv[], const int kcorrect_number) {
   if (argc > 1) {
@@ -59,32 +59,12 @@ void ProgramParameters(int argc, char* argv[], ProgramOptions& options) {
   }
 }
 
-//def ManageExecution(arguments: "list[str]") -> str:
-//    value: str
-//    valid_option: bool = False
-//    if (len(arguments) < 2):
-//        value = "menu"
-//        valid_option = True
-//    
-//    for i in range(1, len(arguments)):
-//        #print(arguments[i])
-//        if (arguments[i] == "--help" or arguments[i] == "-h"):
-//            print("Por implementar")
-//            exit(0)
-//        elif (arguments[i] == "-f"):
-//            if (i + 1 < len(arguments)):
-//                #print(arguments[i])
-//                i += 1
-//                value = arguments[i]
-//                valid_option = True
-//        
-//    if not(valid_option):
-//        print("The program has been executed with an incorrect option.")
-//        print(f"For more information, please use: {arguments[0]} --help")
-//        exit(1)
-//            
-//    return value
-
 void ShowMenu() {
-
+  std::cout << "---Menu---" << std::endl;
+  std::cout << "c: [c]hange graph's description file." << std::endl;
+  std::cout << "b: [b]ranch first search approach." << std::endl;
+  std::cout << "d: [d]eep first search approach." << std::endl;
+  std::cout << "s: [s]how graph's matrix." << std::endl;
+  std::cout << "e: [e]xit program." << std::endl;
+  std::cout << "-> ";
 }

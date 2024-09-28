@@ -40,8 +40,33 @@
 
 #include <iostream>
 
-#include "../lib/tools.hpp"
-#include "../lib/graph.hpp"
+#include "../include/tools.hpp"
+#include "../include/graph.hpp"
+
+void ExecuteMode(char mode, Graph& graph) { 
+  std::string file_name{""};
+  switch (mode) {
+    case 'c':
+      std::cout << "Introduce file: ";
+      std::cin >> file_name;
+      graph = Graph(file_name);
+      break;
+    case 'b':
+      std::cout << "Doing a bfs." << std::endl;
+      break;
+    case 'd':
+      std::cout << "Doing a dfs." << std::endl;
+      break;
+    case 's':
+      std::cout << graph << std::endl;
+      break;
+    case 'e':
+      std::cout << "Ending program" << std::endl;
+      break;
+    default:
+      std::cerr << "Introduced option is not valid." << std::endl;
+  }
+}
 
 int main(int argc, char* argv[]) {
   int kCorrectNumber = 1;
@@ -58,6 +83,12 @@ int main(int argc, char* argv[]) {
   
   std::cout << "File introduced: " << options.file_name << std::endl;
   Graph graph(options.file_name);
-  std::cout << graph << std::endl;
+  char mode{'\0'};
+  do {
+    ShowMenu();
+    std::cin >> mode;
+    ExecuteMode(mode, graph);
+  } while (mode != 'e');
+
   return 0;
 }
