@@ -58,30 +58,6 @@ int main(int argc, char* argv[]) {
   
   std::cout << "File introduced: " << options.file_name << std::endl;
   Graph graph(options.file_name);
+  std::cout << graph << std::endl;
   return 0;
 }
-//def main():
-//    """
-//    Main function that initializes the graph and operates with it.
-//    """
-//
-//    arguments = sys.argv
-//    
-//    
-//    filename = tools.ManageExecution(arguments)
-//    
-//    if (filename == "menu"):
-//        filename = input("Introduce the file containing the graph declaration: ")
-//        
-//    graph.Graph(filename=filename)
-//    
-//    #try:
-//    #    with open("./files/" + filename) as file:
-//    #        for line in file:
-//    #            print(line, end="")
-//    #except FileNotFoundError as e:
-//    #    print(f"File {filename} could not be found.")
-//    #    print(f"{e}")
-//
-//if __name__ == '__main__':
-//    main()

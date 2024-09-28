@@ -21,82 +21,70 @@ Graph::Graph(std::string filename) {
   std::cout << "Creating graph" << std::endl;
   std::ifstream input_file{filename};
   if (input_file.is_open()) {
+    //with open(filename, "r") as file:
     std::string line{""};
     input_file >> line;
     node_number = std::stoi(line);
-    while (getline(input_file, line)) {
-      std::cout << line << std::endl;
-    }
     
-//with open(filename, "r") as file:
-//                number: int = int(file.readline())
-//                self.node_number = number
-//                for i in range(0, self.node_number):
-//                    self.nodes.append([])
-//                    
-//                row: int = 0
-//                column: int = 0
-//                limit: int = 1 
-//                file_iterations: int = self.node_number - limit
-//                for line in file:
-//                    #print()
-//                    #print(line.strip())
-//                    #print(f"-->File iteration: {file_iterations}")
-//                    #print(f"->Current row: {row}")
-//                    #print(f"->Current column: {column}")
-//                    edge_cost: float = float(line.strip())
-//                    if (row == column):
-//                        self.nodes[row].append((column, 0))
-//                        column += 1    
-//                        #print(f"Incluyendo row: {row} {self.nodes[row]}")
-//                    
-//                    #print(f"->Current row: {row}")
-//                    #print(f"->Current column: {column}")
-//                    if (row < self.node_number and column < self.node_number):
-//                        if (edge_cost > -1):    
-//                            self.nodes[row].append((column, edge_cost))
-//                            self.nodes[column].append((row, edge_cost))
-//                            #print(f"Incluyendo row: {row} {self.nodes[row]} \nY row: {column} {self.nodes[column]}")
-//                        column += 1     
-//
-//                    if (file_iterations - limit == 0):
-//                        row += 1
-//                        column = row
-//                        file_iterations = self.node_number - row - 1
-//                    else:
-//                        file_iterations -= 1
-//                
-//                self.nodes[column].append((column, 0))  # Includes the last node
-//        except FileNotFoundError as e:
-//            print(f"File {filename} could not be found.")
-//            print(f"{e}")
+    for (unsigned i = 0; i < node_number; ++i) {
+      std::vector<double> aux(node_number);
+      nodes.emplace_back(aux);
+    }
+    //          number: int = int(file.readline())
+    //          self.node_number = number
+    //          for i in range(0, self.node_number):
+    //              self.nodes.append([])
+    unsigned row{0};
+    unsigned column{0};
+    unsigned limit{1};
+    unsigned file_iterations{node_number - limit}; 
+    //          row: int = 0
+    //          column: int = 0
+    //          limit: int = 1 
+    //          file_iterations: int = self.node_number - limit
+    bool first_line{true};
+    while (getline(input_file, line)) {
+      // for line in file:
+      //std::cout << "Line: " << line << std::endl;
+      //if (!line.empty()) {
+      if (!first_line) {
+        double edge_cost = std::stod(line);
+        //std::cout << "Coste: " << edge_cost << std::endl;
+        if (row == column) {
+        nodes[row][column] = 0;
+        ++column;
+        }
+      //std::cout << "Row: " << row << " Column: " << column << std::endl;
+      if (row < node_number && column < node_number) {
+        nodes[row][column] = edge_cost;
+        nodes[column][row] = edge_cost;
+        ++column;
+      }
+      //std::cout << *this << std::endl;
+      if (file_iterations - limit == 0) {
+        ++row;
+        column = row;
+        file_iterations = node_number - row - 1;
+      } else {
+        --file_iterations;
+      }
+      }
+      first_line = false;
+    }
+    std::cout << "Graph created" << std::endl;
   } else {
     std::cerr << "File could not be opened. Please check file name." << std::endl;
   }
 }
 
-//    
-//    def __init__(self, filename):
-//        try:
-//            with open("./files/" + filename) as file:
-//                number = int(file.read(1))
-//                node_number = number
-//        except FileNotFoundError as e:
-//            print(f"File {filename} could not be found.")
-//            print(f"{e}")
-//    
-//    def __str__(self):
-//        for i in self.nodes:
-//            print(i)
-//            
-//    def BFS(self, start_node):
-//        pass
-//    
-//    def DFS(self, start_node):
-//        pass
-//    
-//    
-
 std::ostream& operator<<(std::ostream& os, Graph& graph) {
+  os << "Node number: " << graph.node_number << std::endl;
+  for (unsigned i = 0; i < graph.node_number; ++i) {
+    os << "Node: " << i + 1 << " [";
+    for (unsigned j = 0; j < graph.nodes.size(); ++j) {
+      os << graph.nodes[i][j] << " ";
+    }
+    os << "]" << std::endl;
+  }
   return os;
 }

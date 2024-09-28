@@ -22,24 +22,12 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <memory>
 
 class Graph {
  public:
   Graph(std::string filename);
-    //
-    //def __init__(self, filename):
-    //    try:
-    //        with open("./files/" + filename) as file:
-    //            number = int(file.read(1))
-    //            node_number = number
-    //    except FileNotFoundError as e:
-    //        print(f"File {filename} could not be found.")
-    //        print(f"{e}")
-    //
-    //def __str__(self):
-    //    for i in self.nodes:
-    //        print(i)
-    //        
+  ~Graph();
     //def BFS(self, start_node):
     //    pass
     //
@@ -48,7 +36,7 @@ class Graph {
   friend std::ostream& operator<<(std::ostream&, Graph&);
 
  private:
-  std::vector<std::vector<std::pair<unsigned, double>>> nodes;
+  std::vector<std::vector<double>> nodes;
   unsigned node_number{0};
   unsigned edge_number{0};
 
