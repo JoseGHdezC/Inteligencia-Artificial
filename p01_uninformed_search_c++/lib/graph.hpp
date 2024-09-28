@@ -21,13 +21,11 @@
 #include <utility>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 class Graph {
  public:
   Graph(std::string filename);
-    //nodes = []
-    //node_number = 0
-    //edge_number = 0
     //
     //def __init__(self, filename):
     //    try:
@@ -47,6 +45,7 @@ class Graph {
     //
     //def DFS(self, start_node):
     //    pass
+  friend std::ostream& operator<<(std::ostream&, Graph&);
 
  private:
   std::vector<std::vector<std::pair<unsigned, double>>> nodes;

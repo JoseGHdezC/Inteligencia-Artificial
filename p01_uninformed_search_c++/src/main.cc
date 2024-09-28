@@ -1,21 +1,20 @@
-/**"""
-//    Universidad de La Laguna
-//    Escuela Superior de Ingeniería y Tecnología
-//    Grado en Ingeniería Informática
-//    Asignatura: Inteligencia Artificial
-//    Curso: 3º
-//    Práctica 1: Búsquedas no informadas
-//    Autor: José Gregorio Hernández Cruz
-//    Correo: alu0101545820@ull.edu.es
-//    Fecha: 24/09/2024
-//    Archivo main.py: 
-//    Contiene la definición de los métodos que están declarados en la clase Cell.
-//
-//    Historial de revisiones
-//      24/09/2024 - Creación (primera versión) del código
+/**
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Asignatura: Inteligencia Artificial
+ * Curso: 3º
+ * Práctica 1: Búsquedas no informadas
+ * Autor: José Gregorio Hernández Cruz
+ * Correo: alu0101545820@ull.edu.es
+ * Fecha: 24/09/2024
+ * Archivo main.py: 
+ * Contiene la definición de los métodos que están declarados en la clase Cell.
+
+ * Historial de revisiones
+ *   24/09/2024 - Creación (primera versión) del código
 */
-//
-//"""
+
 //Objetivos:
 //  - G = (V, E)
 //    - V es el conjunto de vértices (n)
@@ -38,10 +37,7 @@
 //# leer n - 2 filas
 //# ...
 //# leer n - (n - 1)
-//import sys
-//
-//import tools
-//import graph
+
 #include <iostream>
 
 #include "../lib/tools.hpp"
@@ -61,6 +57,7 @@ int main(int argc, char* argv[]) {
   }
   
   std::cout << "File introduced: " << options.file_name << std::endl;
+  Graph graph(options.file_name);
   return 0;
 }
 //def main():
