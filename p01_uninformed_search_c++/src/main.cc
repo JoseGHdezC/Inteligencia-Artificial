@@ -56,7 +56,7 @@ void ExecuteMode(char mode, Graph& graph) {
       graph.BranchSearch();
       break;
     case 'd':
-      std::cout << "Doing a dfs." << std::endl;
+      graph.DeepSearch();
       break;
     case 's':
       std::cout << graph << std::endl;

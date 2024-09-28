@@ -100,6 +100,7 @@ void Graph::BranchSearch() {
   std::cout << "--------------" << std::endl;
   std::cout << "Cost: " << cost << std::endl;
 }
+
 void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_nodes, std::vector<unsigned>& inspected_nodes, int& cost) {
   unsigned iteration{1};
   std::queue<unsigned> queue;
@@ -136,6 +137,7 @@ void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_n
     std::sort(aux.begin(), aux.end());
     for (unsigned i = 0; i < aux.size(); ++i) {
       queue.push(i);
+      cost += nodes_[node][i];
     }
     ++iteration;
     std::cout << "---------------" << std::endl;
@@ -145,6 +147,73 @@ void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_n
     std::cout << "Inspected nodes: ";
     PrintVector(inspected_nodes);
   //}
+  }
+}
+
+void Graph::DeepSearch() {
+  unsigned start_node{0};
+  unsigned end_node{0};
+  std::cout << "Doing a Deep Search" << std::endl;
+  std::cout << "---------------------" << std::endl;
+  do {
+  std::cout << "Introduce start node [1-" << node_number_ << "]: ";
+  std::cin >> start_node;
+  std::cout << "Introduce destin node [1-" << node_number_ << "]: ";
+  std::cin >> end_node;
+  } while ((start_node <= 0 && start_node > node_number_) && (end_node <= 0 && end_node > node_number_));
+  
+  std::cout << "----------------------" << std::endl;
+  std::cout << "Graph's node number: " << node_number_ << std::endl;
+  std::cout << "Graph's edge number: " << edge_number_ << std::endl;
+  std::cout << "Starting node: " << start_node << std::endl;
+  std::cout << "Destin node: " << end_node << std::endl;
+
+  --start_node;
+  --end_node;
+
+  std::vector<unsigned> generated_nodes;
+  std::vector<unsigned> inspected_nodes;
+  //Tree solution_tree;
+  int cost{0};
+
+  generated_nodes.emplace_back(start_node);
+  DFS(start_node, end_node, generated_nodes, inspected_nodes, cost);
+  std::cout << "--------------" << std::endl;
+  std::cout << "Path: " << std::endl;
+  std::cout << "--------------" << std::endl;
+  std::cout << "Cost: " << cost << std::endl;
+}
+
+void Graph::DFS(unsigned start, unsigned end, std::vector<unsigned>& generated_nodes, std::vector<unsigned>& inspected_nodes, int& cost) {
+  unsigned iteration{1};
+  std::vector<unsigned> aux;
+  std::set<unsigned> visited;
+  std::cout << "Node: " << start << std::endl;
+  std::cout << "---------------" << std::endl;
+  std::cout << "Iteration: " << iteration << std::endl;
+  std::cout << "Generated nodes: ";
+  PrintVector(generated_nodes);
+  std::cout << "Inspected nodes: ";
+  PrintVector(inspected_nodes);
+
+  
+  auto x = visited.find(start);
+  if (start != end && x == visited.end()) {
+    inspected_nodes.emplace_back(start);
+    visited.insert(start);
+    for (unsigned i = 0; i < nodes_[start].size(); ++i) {
+      if (nodes_[start][i] > 0) {
+        generated_nodes.emplace_back(i);
+        aux.emplace_back(i);
+      }
+    }
+    std::sort(aux.begin(), aux.end());
+    for (unsigned i = 0; i < aux.size(); ++i) {
+      cost += nodes_[start][i];
+      DFS(i, end, generated_nodes, inspected_nodes, cost);
+      visited.erase(i);
+      cost -= nodes_[start][i];
+    }
   }
 }
 

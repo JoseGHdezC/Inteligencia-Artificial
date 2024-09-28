@@ -28,6 +28,7 @@
 #include <memory>
 #include <queue>
 #include <algorithm>
+#include <set>
 
 class Graph {
  public:
@@ -35,8 +36,7 @@ class Graph {
   ~Graph();
 
   void BranchSearch();
-    //def DFS(self, start_node):
-    //    pass
+  void DeepSearch();
   friend std::ostream& operator<<(std::ostream&, Graph&);
 
  private:
@@ -45,7 +45,7 @@ class Graph {
   unsigned edge_number_{0};
 
   void BFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, int&);
-
+  void DFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, int&);
 };
 
 void PrintVector(const std::vector<unsigned>&);
