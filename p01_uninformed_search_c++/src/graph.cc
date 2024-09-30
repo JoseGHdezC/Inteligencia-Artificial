@@ -152,7 +152,7 @@ void Graph::BFS(unsigned start, unsigned end,
       //std::cout << "hola" << std::endl;
       if (nodes_[node -> get_identifier()][i] > 0) {
         //std::cout << i << " ";
-        
+        // Esto es el coste de la arista: nodes_[node -> get_identifier()][i]
         if (!tree.AlreadyInBranch(i, node)) { 
           //std::cout << "Dentro de Already in branch" << std::endl;
           tree.Insert(i, CountChilds(i), node);

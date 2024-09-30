@@ -35,6 +35,7 @@ bool Tree::Insert(const unsigned element, unsigned child_number, Node* node) {
   return true;
 }
 
+//Pasa el coste por referencia, si no, ponlo a cero
 bool Tree::Search(const unsigned element, Node* node) {
   //std::cout << "Searching" << std::endl;
   if (PreorderSearch(node, element)) {

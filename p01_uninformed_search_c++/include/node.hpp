@@ -39,7 +39,7 @@ class Node {
  private:
   unsigned identifier_{0};
   unsigned child_number_;
-  std::vector<Node*> childs_;
+  std::vector<Node*> childs_; // implementar esto como pair
   Node* predecesor_node_;
 };
 
