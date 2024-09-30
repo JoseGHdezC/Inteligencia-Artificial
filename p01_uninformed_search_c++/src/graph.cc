@@ -70,6 +70,16 @@ Graph::Graph(std::string filename) {
 
 Graph::~Graph() {}
 
+unsigned Graph::CountChilds(unsigned node) {
+  unsigned child_number{0};
+  for (unsigned i = 0; i < nodes_[node].size(); ++i) {
+    if (nodes_[node][i] > 0) {
+      ++child_number;
+    } 
+  }  
+  return child_number;
+} 
+
 void Graph::BranchSearch() {
   unsigned start_node{0};
   unsigned end_node{0};
@@ -91,20 +101,28 @@ void Graph::BranchSearch() {
 
   std::vector<unsigned> generated_nodes;
   std::vector<unsigned> inspected_nodes;
-  //Tree solution_tree;
+  Tree solution_tree;
   int cost{0};
 
-  BFS(start_node, end_node, generated_nodes, inspected_nodes, cost);
+  BFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree, cost);
   std::cout << "--------------" << std::endl;
-  std::cout << "Path: " << std::endl;
+  std::cout << "Path: ";
+  solution_tree.Search(end_node, solution_tree.get_root());
+  std::cout << std::endl;
   std::cout << "--------------" << std::endl;
   std::cout << "Cost: " << cost << std::endl;
+  std::cout << solution_tree << std::endl;
 }
 
-void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_nodes, std::vector<unsigned>& inspected_nodes, int& cost) {
+void Graph::BFS(unsigned start, unsigned end, 
+                std::vector<unsigned>& generated_nodes, 
+                std::vector<unsigned>& inspected_nodes, 
+                Tree& tree,
+                int& cost) {
   unsigned iteration{1};
-  std::queue<unsigned> queue;
-  queue.push(start);
+  std::queue<Node*> queue;
+  tree.Insert(start, CountChilds(start), tree.get_root());
+  queue.push(tree.get_root());
   generated_nodes.emplace_back(start);
 
   std::cout << "---------------" << std::endl;
@@ -114,31 +132,42 @@ void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_n
   std::cout << "Inspected nodes: ";
   PrintVector(inspected_nodes);
 
-  for (int i = 0; i < 10; ++i) {
-  //while (!queue.empty() && !destin_found) {
-    unsigned node = queue.front();
+  while (!queue.empty()) {
+    Node* node = queue.front();
     queue.pop();
-    inspected_nodes.emplace_back(node + 1);
-    std::cout << "Node: " << node << std::endl;
-    //if (node == end) {
-    //  break;
-    //}
-
-    std::vector<unsigned> aux;
-    for (unsigned i = 0; i < nodes_[node].size(); ++i) {
-      if (nodes_[node][i] > 0) {
-        std::cout << i << " ";
+    inspected_nodes.emplace_back((node -> get_identifier()) + 1);
+    std::cout << "Node: " << node -> get_identifier() << std::endl;
+    if (node -> get_identifier() == end) {
+      inspected_nodes.emplace_back((node -> get_identifier()) + 1);
+      std::cout << "---------------" << std::endl;
+      std::cout << "Iteration: " << ++iteration << std::endl;
+      std::cout << "Generated nodes: ";
+      PrintVector(generated_nodes);
+      std::cout << "Inspected nodes: ";
+      PrintVector(inspected_nodes);
+      break;
+    }
+    
+    for (unsigned i = 0; i < nodes_[node -> get_identifier()].size(); ++i) {
+      //std::cout << "hola" << std::endl;
+      if (nodes_[node -> get_identifier()][i] > 0) {
+        //std::cout << i << " ";
         
-        aux.emplace_back(i);
-        generated_nodes.emplace_back(i + 1);
+        if (!tree.AlreadyInBranch(i, node)) { 
+          //std::cout << "Dentro de Already in branch" << std::endl;
+          tree.Insert(i, CountChilds(i), node);
+          //Insertar nodo recién creado
+          for (unsigned j = 0; j < node -> get_childs().size(); ++j) { 
+            if (node -> get_childs()[j] -> get_identifier() == i) { 
+              std::cout << "Pushing child: " << node -> get_childs()[j] -> get_identifier() << std::endl;
+              generated_nodes.emplace_back((node -> get_childs()[j] -> get_identifier()) + 1);
+              queue.push(node -> get_childs()[j]);
+            } 
+          }  
+        } 
       }
     }
-    std::cout << std::endl;
-    std::sort(aux.begin(), aux.end());
-    for (unsigned i = 0; i < aux.size(); ++i) {
-      queue.push(i);
-      cost += nodes_[node][i];
-    }
+    // Calcular coste
     ++iteration;
     std::cout << "---------------" << std::endl;
     std::cout << "Iteration: " << iteration << std::endl;
@@ -146,7 +175,6 @@ void Graph::BFS(unsigned start, unsigned end, std::vector<unsigned>& generated_n
     PrintVector(generated_nodes);
     std::cout << "Inspected nodes: ";
     PrintVector(inspected_nodes);
-  //}
   }
 }
 
@@ -173,18 +201,22 @@ void Graph::DeepSearch() {
 
   std::vector<unsigned> generated_nodes;
   std::vector<unsigned> inspected_nodes;
-  //Tree solution_tree;
+  Tree solution_tree;
   int cost{0};
 
   generated_nodes.emplace_back(start_node);
-  DFS(start_node, end_node, generated_nodes, inspected_nodes, cost);
+  DFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree, cost);
   std::cout << "--------------" << std::endl;
   std::cout << "Path: " << std::endl;
   std::cout << "--------------" << std::endl;
   std::cout << "Cost: " << cost << std::endl;
 }
 
-void Graph::DFS(unsigned start, unsigned end, std::vector<unsigned>& generated_nodes, std::vector<unsigned>& inspected_nodes, int& cost) {
+void Graph::DFS(unsigned start, unsigned end, 
+                std::vector<unsigned>& generated_nodes, 
+                std::vector<unsigned>& inspected_nodes, 
+                Tree& tree,
+                int& cost) {
   unsigned iteration{1};
   std::vector<unsigned> aux;
   std::set<unsigned> visited;
@@ -210,7 +242,7 @@ void Graph::DFS(unsigned start, unsigned end, std::vector<unsigned>& generated_n
     std::sort(aux.begin(), aux.end());
     for (unsigned i = 0; i < aux.size(); ++i) {
       cost += nodes_[start][i];
-      DFS(i, end, generated_nodes, inspected_nodes, cost);
+      DFS(i, end, generated_nodes, inspected_nodes, tree, cost);
       visited.erase(i);
       cost -= nodes_[start][i];
     }

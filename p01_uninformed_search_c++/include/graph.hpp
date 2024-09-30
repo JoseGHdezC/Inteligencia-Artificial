@@ -30,11 +30,14 @@
 #include <algorithm>
 #include <set>
 
+#include "../include/tree.hpp"
+
 class Graph {
  public:
   Graph(std::string filename);
   ~Graph();
-
+  
+  unsigned CountChilds(unsigned);
   void BranchSearch();
   void DeepSearch();
   friend std::ostream& operator<<(std::ostream&, Graph&);
@@ -44,9 +47,11 @@ class Graph {
   unsigned node_number_{0};
   unsigned edge_number_{0};
 
-  void BFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, int&);
-  void DFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, int&);
+  void BFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, Tree&, int&);
+  void DFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, Tree&, int&);
 };
 
 void PrintVector(const std::vector<unsigned>&);
+
+
 #endif

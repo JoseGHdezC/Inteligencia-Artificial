@@ -42,7 +42,6 @@
 
 #include "../include/tools.hpp"
 #include "../include/graph.hpp"
-#include "../include/tree.hpp"
 
 void ExecuteMode(char mode, Graph& graph) { 
   std::string file_name{""};
@@ -83,22 +82,26 @@ int main(int argc, char* argv[]) {
   }
   
   std::cout << "File introduced: " << options.file_name << std::endl;
-  //Graph graph(options.file_name);
-  Tree tree; // TODO: recuerda usarlo
-  tree.Insert(4, 3, tree.get_root());
-  std::cout << tree << std::endl;
-  tree.Insert(4, 3, tree.get_root());
-  tree.Insert(5, 2, tree.get_root());
-  tree.Insert(5, 2, tree.get_root());
-  std::cout << tree << std::endl;
-  tree.Insert(6, 1, tree.get_root());
-  tree.Insert(7, 4, tree.get_root());
-  std::cout << tree << std::endl;
-  tree.Insert(8, 4, tree.get_root() -> get_childs()[1]);
-  std::cout << tree << std::endl;
-  tree.Insert(8, 2, tree.get_root() -> get_childs()[0]);
-  std::cout << tree << std::endl;
-  tree.Insert(8, 2, tree.get_root() -> get_childs()[0]);
+  Graph graph(options.file_name);
+  //Tree tree; // TODO: recuerda usarlo
+  //tree.Insert(4, 3, tree.get_root());
+  //std::cout << tree << std::endl;
+  //tree.Insert(4, 3, tree.get_root());
+  //tree.Insert(5, 2, tree.get_root());
+  //tree.Insert(5, 2, tree.get_root());
+  //std::cout << tree << std::endl;
+  //tree.Insert(6, 1, tree.get_root());
+  //tree.Insert(7, 4, tree.get_root());
+  //std::cout << tree << std::endl;
+  //tree.Insert(8, 4, tree.get_root() -> get_childs()[1]);
+  //std::cout << tree << std::endl;
+  //tree.Insert(8, 2, tree.get_root() -> get_childs()[0]);
+  //std::cout << tree << std::endl;
+  //tree.Insert(8, 2, tree.get_root() -> get_childs()[0]);
+
+  //if (tree.AlreadyInBranch(6, tree.get_root() -> get_childs()[0] -> get_childs()[0])) {
+  //  std::cout << "Already in branch" << std::endl;
+  //} 
   //Node node(4, 3);
   //node.get_childs().emplace_back(new Node(5, 2, &node));
   //std::cout << "Node: " << node << std::endl;
@@ -112,12 +115,12 @@ int main(int argc, char* argv[]) {
   //if (tree.Search(4, tree.get_root())) {
   //  std::cout << "Encontrado" << std::endl;
   //}
-  //char mode{'\0'};
-  //do {
-  //  ShowMenu();
-  //  std::cin >> mode;
-  //  ExecuteMode(mode, graph);
-  //} while (mode != 'e');
+  char mode{'\0'};
+  do {
+    ShowMenu();
+    std::cin >> mode;
+    ExecuteMode(mode, graph);
+  } while (mode != 'e');
 
   return 0;
 }

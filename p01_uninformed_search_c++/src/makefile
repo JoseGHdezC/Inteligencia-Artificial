@@ -8,12 +8,12 @@
 # @brief A Makefile for simple C++ programs
 
 CXX = g++
-CXXFLAGS = -std=c++20 -g -O3 -Wall -pedantic
+CXXFLAGS = -std=c++17 -g -O3 -Wall -pedantic
 LDFLAGS =
 
 all: p01_uninformed_search
 
-p01_uninformed_search: graph.o tools.o main.o
+p01_uninformed_search: graph.o tools.o node.o tree.o main.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 .PHONY: all clean
