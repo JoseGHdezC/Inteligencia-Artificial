@@ -83,14 +83,41 @@ int main(int argc, char* argv[]) {
   }
   
   std::cout << "File introduced: " << options.file_name << std::endl;
-  Graph graph(options.file_name);
-  //Tree tree; // TODO: recuerda usarlo
-  char mode{'\0'};
-  do {
-    ShowMenu();
-    std::cin >> mode;
-    ExecuteMode(mode, graph);
-  } while (mode != 'e');
+  //Graph graph(options.file_name);
+  Tree tree; // TODO: recuerda usarlo
+  tree.Insert(4, 3, tree.get_root());
+  std::cout << tree << std::endl;
+  tree.Insert(4, 3, tree.get_root());
+  tree.Insert(5, 2, tree.get_root());
+  tree.Insert(5, 2, tree.get_root());
+  std::cout << tree << std::endl;
+  tree.Insert(6, 1, tree.get_root());
+  tree.Insert(7, 4, tree.get_root());
+  std::cout << tree << std::endl;
+  tree.Insert(8, 4, tree.get_root() -> get_childs()[1]);
+  std::cout << tree << std::endl;
+  tree.Insert(8, 2, tree.get_root() -> get_childs()[0]);
+  std::cout << tree << std::endl;
+  tree.Insert(8, 2, tree.get_root() -> get_childs()[0]);
+  //Node node(4, 3);
+  //node.get_childs().emplace_back(new Node(5, 2, &node));
+  //std::cout << "Node: " << node << std::endl;
+  //std::cout << "Nodes child max: " << node.get_child_number() << std::endl;
+  //std::cout << "Node childs: " << node.get_childs().size() << std::endl;
+  //for (unsigned i = 0; i < node.get_childs().size(); ++i) {
+  //  std::cout << "Node: " << *node.get_childs()[i] << std::endl;
+  //  std::cout << "Parent node: " << *node.get_childs()[i] -> get_parent() << std::endl;
+  //}
+
+  //if (tree.Search(4, tree.get_root())) {
+  //  std::cout << "Encontrado" << std::endl;
+  //}
+  //char mode{'\0'};
+  //do {
+  //  ShowMenu();
+  //  std::cin >> mode;
+  //  ExecuteMode(mode, graph);
+  //} while (mode != 'e');
 
   return 0;
 }

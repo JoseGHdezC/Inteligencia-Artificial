@@ -25,12 +25,13 @@ class Tree {
   Tree();
   
   ~Tree();
-//
+  // Getter
   Node* get_root() { return root_; }
-  //// Basic operations
+  // Basic operations
   bool IsEmpty(Node*);
   bool Insert(const unsigned element, unsigned child_number, Node* node);
   bool Search(const unsigned, Node*);
+  bool AlreadyInBranch(const unsigned element, Node* node);
 //
   friend std::ostream& operator<<(std::ostream&, const Tree&);
 
@@ -65,13 +66,15 @@ void Tree::DestroyTree(Node*& node) {
 bool Tree::Insert(const unsigned element, unsigned child_number, Node* node) {
   //std::cout << "Insertando" << std::endl;
   if (Search(element, node)) {
+    std::cout << "Element already in" << std::endl;
     return false;
   }
   if (this -> root_ == nullptr) {
     this -> root_ = new Node(element, child_number);
   } else {
     if (node -> get_childs().size() < node -> get_child_number()) {
-      node -> get_childs().emplace_back(new Node(element, child_number));
+      std::cout << "Metiendo" << std::endl;
+      node -> get_childs().emplace_back(new Node(element, child_number, node));
     }
   }
   return true;
@@ -89,7 +92,7 @@ bool Tree::PreorderSearch(Node* node, unsigned element) const {
     return false;
   }
   if (node -> get_identifier() == element) {
-    //std::cout << node -> getData() << " <- ";
+    std::cout << node -> get_identifier() << " <- ";
     return true;
   }
   for (unsigned i = 0; i < node -> get_childs().size(); ++i) {
@@ -98,6 +101,10 @@ bool Tree::PreorderSearch(Node* node, unsigned element) const {
     }
   }
   return false;
+}
+
+bool Tree::AlreadyInBranch(const unsigned element, Node* node) {
+  return true;
 }
 
 void Tree::LevelTraversal(Node* root) const {
@@ -117,6 +124,9 @@ void Tree::LevelTraversal(Node* root) const {
       std::cout << " " << *node;
       for (unsigned i = 0; i < node -> get_childs().size(); ++i) {
         node_queue.push(std::make_pair(node -> get_childs()[i], level + 1));
+      }
+      for (unsigned i = 0; i < (node -> get_child_number() - node -> get_childs().size()); ++i) {
+        node_queue.push(std::make_pair(nullptr, level + 1));
       }
     } else {
       std::cout << " [.]";  // The child is null

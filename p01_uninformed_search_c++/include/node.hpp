@@ -25,21 +25,31 @@
 
 class Node {
  public:
-  Node(const unsigned data = 0, const unsigned child_number = 0);
+  Node(const unsigned data = 0, const unsigned child_number = 0, Node* predecesor = nullptr);
+
+  ~Node();
 
   unsigned get_identifier() { return identifier_; }
   unsigned get_child_number() { return child_number_; }
-  std::vector<Node*> get_childs() { return childs_; }
+  std::vector<Node*>& get_childs() { return childs_; }
+  Node* get_parent() { return predecesor_node_; }
 
   friend std::ostream& operator<< (std::ostream&, Node&);
 
  private:
   unsigned identifier_{0};
+  unsigned child_number_;
   std::vector<Node*> childs_;
-  unsigned child_number_{0};
+  Node* predecesor_node_;
 };
 
-Node::Node(const unsigned data, const unsigned child_number) : identifier_(data), child_number_(child_number) {}
+Node::Node(const unsigned data, const unsigned child_number, Node* predecesor) : identifier_(data), child_number_(child_number), predecesor_node_(predecesor) {}
+
+Node::~Node() {
+  for (unsigned i = 0; i < childs_.size(); ++i) {
+    delete childs_[i];
+  }
+}
 
 std::ostream& operator<<(std::ostream& os, Node& node) {
   os << node.get_identifier();
