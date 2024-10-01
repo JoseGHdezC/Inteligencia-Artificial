@@ -18,7 +18,7 @@ void Tree::DestroyTree(Node*& node) {
   }
 }
 
-void Tree::GetPath(Node* node, std::vector<unsigned>& path, unsigned& path_cost) {
+void Tree::GetPath(Node* node, std::vector<unsigned>& path, double& path_cost) {
   if (node != nullptr) {
     path.insert(path.begin(), (node -> get_identifier() + 1));
     path_cost += node -> get_cost();
@@ -26,7 +26,7 @@ void Tree::GetPath(Node* node, std::vector<unsigned>& path, unsigned& path_cost)
   }
 }
 
-bool Tree::Insert(const unsigned element, unsigned child_number, Node* node, unsigned cost) {
+bool Tree::Insert(const unsigned element, unsigned child_number, Node* node, double cost) {
   //std::cout << "Insertando" << std::endl;
   if (Search(element, node)) {
     std::cout << "Element already in" << std::endl;
