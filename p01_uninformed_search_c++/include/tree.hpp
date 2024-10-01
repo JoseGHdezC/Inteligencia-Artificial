@@ -32,8 +32,8 @@ class Tree {
   Node* get_root() { return root_; }
   // Basic operations
   bool IsEmpty(Node*);
-  void GetPath(Node*, std::vector<unsigned>&, unsigned&);
-  bool Insert(const unsigned element, unsigned child_number, Node* node, unsigned cost);
+  void GetPath(Node*, std::vector<unsigned>&, double&);
+  bool Insert(const unsigned element, unsigned child_number, Node* node, double cost);
   bool Search(const unsigned, Node*);
   bool AlreadyInBranch(const unsigned element, Node* node);
 //

@@ -25,10 +25,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <memory>
 #include <queue>
-#include <algorithm>
+#include <stack>
 #include <set>
+
 
 #include "../include/tree.hpp"
 
@@ -47,8 +47,8 @@ class Graph {
   unsigned node_number_{0};
   unsigned edge_number_{0};
 
-  void BFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, Tree&, int&);
-  void DFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, Tree&, int&);
+  void BFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, Tree&);
+  void DFS(unsigned, unsigned, std::vector<unsigned>&, std::vector<unsigned>&, Tree&);
 };
 
 void PrintVector(const std::vector<unsigned>&);

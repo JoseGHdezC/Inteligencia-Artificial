@@ -25,11 +25,11 @@
 
 class Node {
  public:
-  Node(const unsigned data = 0, const unsigned child_number = 0, Node* predecesor = nullptr, const unsigned predecesor_cost = 0);
+  Node(const unsigned data = 0, const unsigned child_number = 0, Node* predecesor = nullptr, const double predecesor_cost = 0);
 
   ~Node();
 
-  unsigned get_cost() { return predecesor_cost_; }
+  double get_cost() { return predecesor_cost_; }
   unsigned get_identifier() { return identifier_; }
   unsigned get_child_number() { return child_number_; }
   std::vector<Node*>& get_childs() { return childs_; }
@@ -42,7 +42,7 @@ class Node {
   unsigned child_number_;
   std::vector<Node*> childs_; // implementar esto como pair
   Node* predecesor_node_;
-  unsigned predecesor_cost_;
+  double predecesor_cost_; // No puede ser unsigned, tiene que ser double
 };
 
 #endif
