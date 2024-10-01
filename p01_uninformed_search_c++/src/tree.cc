@@ -18,7 +18,15 @@ void Tree::DestroyTree(Node*& node) {
   }
 }
 
-bool Tree::Insert(const unsigned element, unsigned child_number, Node* node) {
+void Tree::GetPath(Node* node, std::vector<unsigned>& path, unsigned& path_cost) {
+  if (node != nullptr) {
+    path.insert(path.begin(), (node -> get_identifier() + 1));
+    path_cost += node -> get_cost();
+    GetPath(node -> get_parent(), path, path_cost);
+  }
+}
+
+bool Tree::Insert(const unsigned element, unsigned child_number, Node* node, unsigned cost) {
   //std::cout << "Insertando" << std::endl;
   if (Search(element, node)) {
     std::cout << "Element already in" << std::endl;
@@ -29,7 +37,7 @@ bool Tree::Insert(const unsigned element, unsigned child_number, Node* node) {
   } else {
     if (node -> get_childs().size() < node -> get_child_number()) {
       //std::cout << "Metiendo" << std::endl;
-      node -> get_childs().emplace_back(new Node(element, child_number, node));
+      node -> get_childs().emplace_back(new Node(element, child_number, node, cost));
     }
   }
   return true;
@@ -44,6 +52,8 @@ bool Tree::Search(const unsigned element, Node* node) {
   return false;
 }
 
+// Problema con el camino mostrado
+// Hacerlo por postorden
 bool Tree::PreorderSearch(Node* node, unsigned element) const {
   if (node == nullptr) {
     return false;

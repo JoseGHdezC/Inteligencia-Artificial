@@ -105,13 +105,13 @@ void Graph::BranchSearch() {
   int cost{0};
 
   BFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree, cost);
-  std::cout << "--------------" << std::endl;
-  std::cout << "Path: ";
-  solution_tree.Search(end_node, solution_tree.get_root());
-  std::cout << std::endl;
-  std::cout << "--------------" << std::endl;
-  std::cout << "Cost: " << cost << std::endl;
-  std::cout << solution_tree << std::endl;
+  std::cout << "Do you want to print the solution tree? [y/n]: ";
+  std::string answer{""};
+  std::cin >> answer;
+  if (answer == "y") {
+    std::cout << "--------Solution tree-----------" << std::endl;
+    std::cout << solution_tree << std::endl;
+  }
 }
 
 void Graph::BFS(unsigned start, unsigned end, 
@@ -121,9 +121,10 @@ void Graph::BFS(unsigned start, unsigned end,
                 int& cost) {
   unsigned iteration{1};
   std::queue<Node*> queue;
-  tree.Insert(start, CountChilds(start), tree.get_root());
+  tree.Insert(start, CountChilds(start), tree.get_root(), 0);
   queue.push(tree.get_root());
-  generated_nodes.emplace_back(start);
+  std::cout << "Start: " << start << std::endl;
+  generated_nodes.emplace_back(start + 1);
 
   std::cout << "---------------" << std::endl;
   std::cout << "Iteration: " << iteration << std::endl;
@@ -138,13 +139,21 @@ void Graph::BFS(unsigned start, unsigned end,
     inspected_nodes.emplace_back((node -> get_identifier()) + 1);
     std::cout << "Node: " << node -> get_identifier() << std::endl;
     if (node -> get_identifier() == end) {
-      inspected_nodes.emplace_back((node -> get_identifier()) + 1);
       std::cout << "---------------" << std::endl;
       std::cout << "Iteration: " << ++iteration << std::endl;
       std::cout << "Generated nodes: ";
       PrintVector(generated_nodes);
       std::cout << "Inspected nodes: ";
       PrintVector(inspected_nodes);
+      std::cout << "--------------" << std::endl;
+      std::cout << "Path: ";
+      std::vector<unsigned> path_vector;
+      unsigned cost{0};
+      tree.GetPath(node, path_vector, cost);
+      PrintVector(path_vector);
+      std::cout << std::endl;
+      std::cout << "--------------" << std::endl;
+      std::cout << "Cost: " << cost << std::endl << std::endl;
       break;
     }
     
@@ -155,7 +164,7 @@ void Graph::BFS(unsigned start, unsigned end,
         // Esto es el coste de la arista: nodes_[node -> get_identifier()][i]
         if (!tree.AlreadyInBranch(i, node)) { 
           //std::cout << "Dentro de Already in branch" << std::endl;
-          tree.Insert(i, CountChilds(i), node);
+          tree.Insert(i, CountChilds(i), node, nodes_[node -> get_identifier()][i]);
           //Insertar nodo recién creado
           for (unsigned j = 0; j < node -> get_childs().size(); ++j) { 
             if (node -> get_childs()[j] -> get_identifier() == i) { 
@@ -263,7 +272,7 @@ std::ostream& operator<<(std::ostream& os, Graph& graph) {
 
 void PrintVector(const std::vector<unsigned>& vector) {
   for (unsigned i = 0; i < vector.size(); ++i) {
-    std::cout << i;
+    std::cout << vector[i];
     if (i != vector.size() - 1) {
       std::cout << ", ";
     }
