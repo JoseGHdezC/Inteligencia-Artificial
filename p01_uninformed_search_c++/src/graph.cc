@@ -1,18 +1,22 @@
 /**
-//    Universidad de La Laguna
-//    Escuela Superior de Ingeniería y Tecnología
-//    Grado en Ingeniería Informática
-//    Asignatura: Inteligencia Artificial
-//    Curso: 3º
-//    Práctica 1: Búsquedas no informadas
-//    Autor: José Gregorio Hernández Cruz
-//    Correo: alu0101545820@ull.edu.es
-//    Fecha: 24/09/2024
-//    Archivo graph.py: 
-//    Contiene la definición de los métodos que están declarados en la clase Cell.
-//
-//    Historial de revisiones
-//      24/09/2024 - Creación (primera versión) del código
+ *   Universidad de La Laguna
+ *   Escuela Superior de Ingeniería y Tecnología
+ *   Grado en Ingeniería Informática
+ *   Asignatura: Inteligencia Artificial
+ *   Curso: 3º
+ *   Práctica 1: Búsquedas no informadas
+ *   Autor: José Gregorio Hernández Cruz
+ *   Correo: alu0101545820@ull.edu.es
+ *   Fecha: 24/09/2024
+ *   Archivo graph.cc: 
+ *   Contiene la definición de los métodos que están declarados en la clase Cell.
+
+ *   Historial de revisiones
+ *     24/09/2024 - Creación (primera versión) del código
+ *     29/09/2024 - Desarrollo de funciones
+ *     01/10/2024 - Finalización del código bfs
+ *     02/10/2024 - Finalización del código dfs
+ *     03/10/2024 - Comentarios
 */
 
 #include <cstdio>
@@ -233,7 +237,7 @@ void Graph::DeepSearch() {
   DFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree);
   std::cout.rdbuf(original_cout_buffer);
   output.close();
-  
+
   std::cout << "Do you want to print the solution tree? [y/n]: ";
   std::string answer{""};
   std::cin >> answer;

@@ -1,7 +1,23 @@
 /**
- * 
- * 
- */
+ *   Universidad de La Laguna
+ *   Escuela Superior de Ingeniería y Tecnología
+ *   Grado en Ingeniería Informática
+ *   Asignatura: Inteligencia Artificial
+ *   Curso: 3º
+ *   Práctica 2: Búsquedas informadas
+ *   Autor: José Gregorio Hernández Cruz
+ *   Correo: alu0101545820@ull.edu.es
+ *   Fecha: 02/10/2024
+ *   Archivo main.cc: 
+ *   Contiene la definición de los métodos que están declarados en la clase Cell.
+
+ *   Historial de revisiones
+ *     24/09/2024 - Creación (primera versión) del código
+ *     29/09/2024 - Desarrollo de funciones
+ *     01/10/2024 - Finalización del código bfs
+ *     02/10/2024 - Finalización del código dfs
+ *     03/10/2024 - Comentarios
+*/
 
 /*  Laberinto de E a S, evitando obstáculos
     -> Insp: 
@@ -52,3 +68,28 @@
         - d) Si no hay salida, escribir "No se ha encontrado solución"
 */
 
+#include "../include/tools.hpp"
+#include "../include/maze.hpp"
+
+int main(int argc, char* argv[]) {
+  const unsigned kCorrectNumber{1};
+  CheckExecution(argc, argv, kCorrectNumber);
+  ProgramOptions options;
+  ProgramParameters(argc, argv, options);
+  
+  if (!options.file_received) {
+    std::cout << "Introduce a file containing the graph's description: ";
+    std::cin >> options.file_name;
+  } else {
+    std::cout << "File introduced: " << options.file_name << std::endl;
+  }
+  if (options.heuristic_received) {
+    std::cout << "Heuristic function: " << options.heuristic << std::endl;
+  }
+  std::vector<char> a;
+  a.push_back('a');
+
+  Maze maze(options.file_name);
+  std::cout << maze << std::endl;
+  return 0;
+}

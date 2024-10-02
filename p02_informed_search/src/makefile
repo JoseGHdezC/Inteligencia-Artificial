@@ -11,15 +11,15 @@ CXX = g++
 CXXFLAGS = -std=c++17 -g -O3 -Wall -pedantic
 LDFLAGS =
 
-all: p01_uninformed_search
+all: p02_informed_search
 
-p01_uninformed_search: graph.o tools.o node.o tree.o main.o
+p02_informed_search: maze.o tools.o tree.o main.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 .PHONY: all clean
 
 clean :
 	@rm -rf *.o *gch *.out
-	rm p01_uninformed_search
+	rm p02_informed_search
 	rm -rf *~ basura
 	rm -rf a.out
