@@ -15,6 +15,7 @@
 //      24/09/2024 - Creación (primera versión) del código
 */
 
+#include <list>
 #include "../include/graph.hpp"
 
 Graph::Graph(std::string filename) {
@@ -212,10 +213,13 @@ void Graph::DeepSearch() {
   Tree solution_tree;
 
   DFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree);
-  std::cout << "--------------" << std::endl;
-  std::cout << "Path: " << std::endl;
-  std::cout << "--------------" << std::endl;
-  //std::cout << "Cost: " << cost << std::endl;
+  std::cout << "Do you want to print the solution tree? [y/n]: ";
+  std::string answer{""};
+  std::cin >> answer;
+  if (answer == "y") {
+    std::cout << "--------Solution tree-----------" << std::endl;
+    std::cout << solution_tree << std::endl;
+  }
 }
 
 void Graph::DFS(unsigned start, unsigned end, 
@@ -239,7 +243,7 @@ void Graph::DFS(unsigned start, unsigned end,
   while (!stack.empty()) {
     Node* node = stack.top();
     stack.pop();
-    std::cout << "Evaluating: " << node -> get_identifier() << std::endl;
+    std::cout << "Evaluating: " << (node -> get_identifier()) + 1 << std::endl;
     inspected_nodes.emplace_back((node -> get_identifier()) + 1);
 
     if (node -> get_identifier() == end) {
@@ -261,20 +265,21 @@ void Graph::DFS(unsigned start, unsigned end,
       break;
     }
     
-    
-    for (unsigned i = nodes_[node -> get_identifier()].size(); i > 0; --i) {
-      std::cout << i << " ";
-      if (nodes_[node -> get_identifier()][i] > 0) {
+    for (unsigned i = node_number_ ; i > 0; --i) {
+      //std::cout << "It: " <<  i << std::endl;
+      //std::cout << "Current cost: " << nodes_[node -> get_identifier()][i - 1] << std::endl;
+      if (nodes_[node -> get_identifier()][i - 1] > 0) {
         // Esto es el coste de la arista: nodes_[node -> get_identifier()][i]
-        if (!tree.AlreadyInBranch(i, node)) { 
+        if (!tree.AlreadyInBranch(i - 1, node)) { 
           //std::cout << "Dentro de Already in branch" << std::endl;
-          tree.Insert(i, CountChilds(i), node, nodes_[node -> get_identifier()][i]);
+          tree.Insert(i - 1, CountChilds(i - 1), node, nodes_[node -> get_identifier()][i - 1]);
           //Insertar nodo recién creado
-          for (unsigned j = 0; j < node -> get_childs().size(); ++j) { 
-            if (node -> get_childs()[j] -> get_identifier() == i) { 
-              std::cout << "Pushing child: " << node -> get_childs()[j] -> get_identifier() << std::endl;
-              generated_nodes.emplace_back((node -> get_childs()[j] -> get_identifier()) + 1);
-              stack.push(node -> get_childs()[j]);
+          //std::cout << "Hola" << std::endl;
+          for (unsigned j = 1; j <= node -> get_childs().size(); ++j) { 
+            if (node -> get_childs()[j - 1] -> get_identifier() == i - 1) { 
+              std::cout << "Pushing child: " << (node -> get_childs()[j - 1] -> get_identifier()) + 1 << std::endl;
+              generated_nodes.emplace_back((node -> get_childs()[j - 1] -> get_identifier()) + 1);
+              stack.push(node -> get_childs()[j - 1]);
             } 
           }  
         } 
@@ -289,24 +294,6 @@ void Graph::DFS(unsigned start, unsigned end,
     std::cout << "Inspected nodes: ";
     PrintVector(inspected_nodes);
   }
-  //auto x = visited.find(start);
-  //if (start != end && x == visited.end()) {
-  //  inspected_nodes.emplace_back(start);
-  //  visited.insert(start);
-  //  for (unsigned i = 0; i < nodes_[start].size(); ++i) {
-  //    if (nodes_[start][i] > 0) {
-  //      generated_nodes.emplace_back(i);
-  //      aux.emplace_back(i);
-  //    }
-  //  }
-  //  std::sort(aux.begin(), aux.end());
-  //  for (unsigned i = 0; i < aux.size(); ++i) {
-  //    //cost += nodes_[start][i];
-  //    DFS(i, end, generated_nodes, inspected_nodes, tree);
-  //    visited.erase(i);
-  //    //cost -= nodes_[start][i];
-  //  }
-  //}
 }
 
 std::ostream& operator<<(std::ostream& os, Graph& graph) {
