@@ -15,7 +15,8 @@
 //      24/09/2024 - Creación (primera versión) del código
 */
 
-#include <list>
+#include <cstdio>
+
 #include "../include/graph.hpp"
 
 Graph::Graph(std::string filename) {
@@ -93,6 +94,13 @@ void Graph::BranchSearch() {
     std::cin >> end_node;
   } while ((start_node <= 0 || start_node > node_number_) || (end_node <= 0 || end_node > node_number_));
   
+  std::ofstream output{"..//results//bfs_output.txt"};
+  if (!output.is_open()) {
+    std::cerr << "File could not be open" << std::endl;
+  }
+  std::streambuf* original_cout_buffer{std::cout.rdbuf()};
+  std::cout.rdbuf(output.rdbuf());
+
   std::cout << "----------------------" << std::endl;
   std::cout << "Graph's node number: " << node_number_ << std::endl;
   std::cout << "Graph's edge number: " << edge_number_ << std::endl;
@@ -107,6 +115,9 @@ void Graph::BranchSearch() {
   Tree solution_tree;
 
   BFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree);
+  std::cout.rdbuf(original_cout_buffer);
+  output.close();
+
   std::cout << "Do you want to print the solution tree? [y/n]: ";
   std::string answer{""};
   std::cin >> answer;
@@ -199,6 +210,13 @@ void Graph::DeepSearch() {
   std::cin >> end_node;
   } while ((start_node <= 0 || start_node > node_number_) || (end_node <= 0 || end_node > node_number_));
   
+  std::ofstream output{"..//results//dfs_output.txt"};
+  if (!output.is_open()) {
+    std::cerr << "File could not be opened." << std::endl;
+  }
+  std::streambuf* original_cout_buffer{std::cout.rdbuf()};
+  std::cout.rdbuf(output.rdbuf());
+
   std::cout << "----------------------" << std::endl;
   std::cout << "Graph's node number: " << node_number_ << std::endl;
   std::cout << "Graph's edge number: " << edge_number_ << std::endl;
@@ -213,6 +231,9 @@ void Graph::DeepSearch() {
   Tree solution_tree;
 
   DFS(start_node, end_node, generated_nodes, inspected_nodes, solution_tree);
+  std::cout.rdbuf(original_cout_buffer);
+  output.close();
+  
   std::cout << "Do you want to print the solution tree? [y/n]: ";
   std::string answer{""};
   std::cin >> answer;

@@ -106,7 +106,7 @@ void Tree::LevelTraversal(Node* root) const {
       for (unsigned i = 0; i < node -> get_childs().size(); ++i) {
         node_queue.push(std::make_pair(node -> get_childs()[i], level + 1));
       }
-      for (unsigned i = 0; i < (node -> get_child_number() - node -> get_childs().size()); ++i) {
+      for (unsigned i = 1; i < (node -> get_child_number() - node -> get_childs().size()); ++i) {
         node_queue.push(std::make_pair(nullptr, level + 1));
       }
     } else {
