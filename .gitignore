@@ -13,3 +13,4 @@
 *.exe
 *.out
 p01_uninformed_search
+p02_informed_search
