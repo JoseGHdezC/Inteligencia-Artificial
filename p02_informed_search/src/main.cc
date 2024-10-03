@@ -12,7 +12,7 @@
  *   Contiene la definición de los métodos que están declarados en la clase Cell.
 
  *   Historial de revisiones
- *     24/09/2024 - Creación (primera versión) del código
+ *     02/10/2024 - Creación (primera versión) del código
  *     29/09/2024 - Desarrollo de funciones
  *     01/10/2024 - Finalización del código bfs
  *     02/10/2024 - Finalización del código dfs
