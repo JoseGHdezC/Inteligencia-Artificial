@@ -11,11 +11,13 @@
  * Autor: José Gregorio Hernández Cruz
  * Correo: alu0101545820@ull.edu.es
  * Fecha: 24/09/2024
- * Archivo graph.py: 
- * Contiene la definición de los métodos que están declarados en la clase Cell.
- * 
+ * Archivo tree.hpp: 
+ * Contiene la definición de la clase Tree.
+
  * Historial de revisiones
  *   24/09/2024 - Creación (primera versión) del código
+ *   30/09/2024 - Desarrollo de funciones
+ *   03/10/2024 - Comentarios
 */
 
 #include <queue>
@@ -23,11 +25,17 @@
 
 #include "node.hpp"
 
+/**
+ * @class Tree
+ * @brief Represents the solution tree created from a traversal
+ */
 class Tree {
  public:
+  // Constructor
   Tree();
-  
+  // Destructor
   ~Tree();
+
   // Getter
   Node* get_root() { return root_; }
   // Basic operations
@@ -36,11 +44,12 @@ class Tree {
   bool Insert(const unsigned element, unsigned child_number, Node* node, double cost);
   bool Search(const unsigned, Node*);
   bool AlreadyInBranch(const unsigned element, Node* node);
-//
+  
+  // I/O operator overload
   friend std::ostream& operator<<(std::ostream&, const Tree&);
 
  private:
-  Node* root_;
+  Node* root_;  // Start of the tree
   // Methods
   void DestroyTree(Node*& node);  // Used to destroy the tree
   bool PreorderSearch(
