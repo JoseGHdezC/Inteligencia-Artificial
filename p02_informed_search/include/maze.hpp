@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <utility>
 
 // indica pasillo
 #define PASS_ID  0
@@ -36,7 +37,10 @@ class Maze {
  private:
   std::vector<std::vector<char>> maze_;
   std::vector<std::vector<char>> solved_maze_;
+  std::vector<std::vector<unsigned>> heuristic_map_;
   unsigned row_size_{0};
   unsigned column_size_{0};
+  std::pair<unsigned, unsigned> start_point_;
+  std::pair<unsigned, unsigned> end_point_;
 };
 #endif

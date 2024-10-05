@@ -11,6 +11,10 @@ Maze::Maze(const std::string& file) {
     getline(input_file, line);
     for (unsigned i = 0; i < row_size_; ++i) {
       getline(input_file, line);
+      std::cout << "Line " << i << ": " << line << std::endl;
+      for (unsigned j = 0; j < column_size_(); ++j) {
+        
+      }
       std::vector<char> row;
       for (unsigned j = 0; j < line.length(); ++j) {
         if (line[j] != ' ') {
